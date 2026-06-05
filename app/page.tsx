@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const trendingMovies = [
@@ -64,12 +63,11 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative w-full h-[870px] md:h-[921px] flex items-center">
         <div className="absolute inset-0 w-full h-full">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxGzEU5TEeGGirJOBiU8Z_qNAsMxEqn9q0gcEH_OpUwisxrSu6ePZyqvwmHgSNBQsdEgoBqh4eSUJlDs8YVswSeb3SoRBhfHZvxfqx0tSHNdfeK_N5d0ncmgd3_TZOjLIlx-SskDM_I2Xj0Zi8LHuYrbVyzBsVvv_7HJH2Kq0q-oV6rlJjU7l4zCOQAL0dr8gJ_n-hI49YL_eu3nHk3b6FUSYCkCKpFOGM4IC6QdFTtE30l0GHXMFmG5k4gjZqgFaXTMLcC4PVRaNM"
             alt="Hero Movie Banner"
-            fill
-            className="object-cover"
-            priority
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 hero-gradient" />
         </div>
@@ -121,12 +119,11 @@ export default function HomePage() {
                 key={movie.id}
                 className="group relative flex-none w-[160px] md:w-[220px] aspect-[2/3] rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 border border-white/10 hover:border-primary-container"
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={movie.posterUrl}
                   alt={movie.title}
-                  fill
-                  className="object-cover"
-                  sizes="220px"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                   <h3 className="text-[14px] font-[Inter] font-semibold text-on-surface mb-1 truncate">
@@ -150,12 +147,11 @@ export default function HomePage() {
                 key={item.id}
                 className="group relative flex-none w-[280px] md:w-[320px] aspect-video rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 border border-white/10 hover:border-white/30 bg-surface-container"
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={item.thumbnailUrl}
                   alt={item.title}
-                  fill
-                  className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                  sizes="320px"
+                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
                   <button className="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg">

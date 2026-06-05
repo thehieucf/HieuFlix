@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const genres = [
@@ -105,12 +104,11 @@ export default function GenresPage() {
             href={`/movies?genre=${genre.id}`}
             className="genre-card group relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer border border-white/10 hover:border-primary-container transition-colors duration-300"
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={genre.imageUrl}
               alt={genre.name}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
-              sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             {/* Hover overlay with icon + count */}
             <div className="genre-overlay absolute inset-0 opacity-0 bg-gradient-to-t from-background via-background/60 to-transparent flex flex-col justify-end p-4">

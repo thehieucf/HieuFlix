@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 interface MovieCardProps {
   title: string;
@@ -20,12 +19,11 @@ export default function MovieCard({
       className="group relative flex flex-col gap-2 cursor-pointer rounded-sm border border-transparent transition-colors duration-300 overflow-hidden"
     >
       <div className="relative aspect-[2/3] w-full overflow-hidden rounded-sm bg-surface-container">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={posterUrl}
           alt={title}
-          fill
-          className="object-cover transition-transform duration-500 ease-out"
-          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 17vw"
+          className="w-full h-full object-cover transition-transform duration-500 ease-out"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
           <button className="bg-primary-container text-on-primary-container rounded-lg py-2 px-4 flex items-center justify-center gap-2 text-[14px] font-[Inter] font-semibold hover:bg-inverse-primary transition-colors">
