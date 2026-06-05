@@ -1,12 +1,5 @@
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const MovieDescription = dynamic(() => import("@/components/MovieDescription"), {
-  ssr: false,
-  loading: () => (
-    <div className="text-[16px] font-[Inter] text-on-surface-variant leading-relaxed max-w-3xl line-clamp-5" />
-  ),
-});
+import MovieDescription from "@/components/MovieDescription";
 
 const VSMOV = "https://vsmov.com";
 
