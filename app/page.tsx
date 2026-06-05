@@ -1,184 +1,194 @@
 import Link from "next/link";
+import MovieCard from "@/components/MovieCard";
 
-const trendingMovies = [
-  {
-    id: 1,
-    title: "The Director's Cut",
-    meta: "2023 • Thriller",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBjnqBKrnlO_zTsX9uQlYTejPhymJv2a61X4psv2ji81zdLlIJcDeL0EEx_gXMajjf9GeYAQZZCo1tvVFqyHkDXz1FfnzMK5XTkTZjmq5uozBecPHDeQzzAD8l-jg9_0zO_scVnLCoie54l7y3LRt4ovRNZuPMLnpnPNy0G55MYq0UtF6-9QabC5KQro7ETAMQpOW7rNhjgAEF0o2ruW3TL1VRyiqfkMbit1e2LpB62FOZoI2PHgd42BdNWRV_RdjZMWpUaJHmIFX_Z",
-  },
-  {
-    id: 2,
-    title: "Neon Void",
-    meta: "2024 • Sci-Fi",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAdmWLqeRFmFynFd4Cg8OBaSw6FVHplUc_d1qhy1sPK-tWLeXX-LCoFw_inv249kWXtQpk97ii1p01p6-YMsWK7Uz-uYtHMs3MPkg_9WvzLvN1l3zwD5RnwQOiEdtIdvbyrB9r5P-ZmGBJabjRt_w9caA_BT5gz_SEfXEoMaA5oG22wyto4YIEvqvmY18RfvAp851jIJN3QF1vUT6yn19eqvZ0hXQaxjtgtazXK0kD4RBD0wk3nV8geEY6FJYbmGTm7ofaJACnTRPnG",
-  },
-  {
-    id: 3,
-    title: "Blood Moon Rising",
-    meta: "2023 • Horror",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuB5A3gDUNvlvHIvAgNwqO7we7pS0beuHc1BtTXokTXfe-6UuCI_8K6iOO3GIJqrRkelQfFfqrUm0h2CYu2g-cfZ956l-IIxbEUucMATKfPCJjvgdhu7QATCWxy2jAopCHIISx0B1nyAFOeBpMjsyJu5qz2FvP-r1qKHD4lmtOchQmeqmAXHjYwSN7Ab7qK2bj3KfJeVtXkTy_5RcBnDoJwv1YTX0bZYBVlYa82gtJSZVgwTH8cOrChfKp3mJ85hL4G_ObMs5SADbGmB",
-  },
-  {
-    id: 4,
-    title: "Action & Cut",
-    meta: "2022 • Drama",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAy8q-uZi5P-z3tneCTfLPZ8RF13UMDjL17EzVg1pez-F3mtkjKtFDvc81RAP7KqliYw9dGdbbT55g0mrOfmrh1EZv_7U2X7hZ3gLwwglpwXwihElze79FeKdLx7t67NQxqSi8IS9dcbEVI-nUOvPSLQMC0m6IqA4MBRDbQaCjyfM8tCX8qsffesw6mdW_eLM0cSiba95zFttGxduuxTNsJwZ0VJj9U1vYRsxgHd-GZUUYnTn9d8iDqcgeDNcol8wb6VBiNLX44lUcA",
-  },
-  {
-    id: 5,
-    title: "The Celluloid Dream",
-    meta: "2021 • Documentary",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDoi6GkyRYjjQPi07nEot9YpjLq-jKsF4sPXeqiiqWKs0etUABYeg1srfWeHBYmPNGUmQcBoq9YnCQ3laNANXK81X6_WbfQO8wHflGhgtkG4WBoObrqALf_NzHWEZyS-VkSvFySSzMwU6Ky3os_MOy_DiwyMFflOfVq_rFi1UFHotzVeuEkHK6s5Uh_WPPimYLDSYrH6GieBO18KAgjunu-z7YZtgQ4DEtxw9oqZu6FAC-7YjXCuI7RpMxRRtSBvSGig4lxl2HFfEtu",
-  },
-];
+const VSMOV = "https://vsmov.com";
 
-const continueWatching = [
-  {
-    id: 1,
-    title: "Desert Planet: Part 1",
-    remaining: "Còn 1g 12ph",
-    progress: 65,
-    thumbnailUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD7qXSsNBzTI9rsxmxsvMNc6bmPEUfyUtR2JbnKYS_aaGJ-sVGSY05nkNj0t_dbeZ8YcgpxpjdLNJc6thZj7ABMnefHrjxxYA3-XF4PzWFVhreBKInvVAA-iSi3_6Q2ynuEpMjJ93FEO5yKdjqr8vYvWgksPvWkU66DlXWMadFXk3zTs3Oc_TkWsGJ8vqzhHN4w6PqDSKOg6lVujtk1qA_oJtXDLSdGl2H0t902KFeWIT2qO11P04QeXQ_YAVwjqKG9iBBFI2DT9Loc",
-  },
-  {
-    id: 2,
-    title: "The Silent Woods - S2:E4",
-    remaining: "Còn 42ph",
-    progress: 20,
-    thumbnailUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBQDMG5bhDATcRKZJGnUa0zoiweKfaCw1BqxqM7UyWIaIzxcJY44eJIJMz9z9AOJKBN3_hmwsUsNtffxWeqqDumPG9KKrzBHbJc2P5GX6UaUxTfPFNeBmC00AelTzvMBGgkAfUVioXfIG3c_1G8tDmr2JrJY--9hn3PldySD4jleEcFmxuKpVAF65mZmgjyLnn6lJOhKKrUq0EUckJmY5XwOXA-bvy3ql-TTqTt9KetPAm_BprUStJmTSVLmE6TeorWKzTf9hrzArgK",
-  },
-];
+const fetchOpts = (revalidate = 3600) => ({
+  next: { revalidate },
+});
 
-export default function HomePage() {
+// Lấy phim mới cập nhật (dùng cho Hero + row trending)
+async function getNewMovies(page = 1) {
+  const res = await fetch(
+    `${VSMOV}/api/danh-sach/phim-moi-cap-nhat?page=${page}`,
+    fetchOpts()
+  );
+  if (!res.ok) throw new Error("Không thể tải phim mới");
+  return res.json();
+}
+
+// Lấy phim bộ mới nhất
+async function getNewSeries(page = 1) {
+  const res = await fetch(
+    `${VSMOV}/api/danh-sach?type=series&page=${page}`,
+    fetchOpts()
+  );
+  if (!res.ok) throw new Error("Không thể tải phim bộ");
+  return res.json();
+}
+
+/** Lấy URL ảnh an toàn — poster_url đôi khi là {} rỗng
+ * vsmov đặt tên NGƯỢC: thumb_url = poster dọc, poster_url = backdrop ngang
+ */
+function getImageUrl(item: any, role: "backdrop" | "poster" = "poster"): string {
+  const posterVertical = typeof item.thumb_url  === "string" && item.thumb_url  ? item.thumb_url  : "";
+  const backdropHoriz  = typeof item.poster_url === "string" && item.poster_url ? item.poster_url : "";
+  if (role === "backdrop") return backdropHoriz || posterVertical || "https://via.placeholder.com/1280x720?text=No+Image";
+  return posterVertical || backdropHoriz || "https://via.placeholder.com/500x750?text=No+Image";
+}
+
+export default async function HomePage() {
+  const [newData, seriesData] = await Promise.all([
+    getNewMovies(1),
+    getNewSeries(1),
+  ]);
+
+  const allNew: any[] = newData.items ?? [];
+  const hero = allNew[0];
+  const trending = allNew.slice(1, 11);
+  const series: any[] = (seriesData.items ?? []).slice(0, 10);
+
+  const heroBackdrop = getImageUrl(hero, "backdrop");
+
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative w-full h-[870px] md:h-[921px] flex items-center">
-        <div className="absolute inset-0 w-full h-full">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxGzEU5TEeGGirJOBiU8Z_qNAsMxEqn9q0gcEH_OpUwisxrSu6ePZyqvwmHgSNBQsdEgoBqh4eSUJlDs8YVswSeb3SoRBhfHZvxfqx0tSHNdfeK_N5d0ncmgd3_TZOjLIlx-SskDM_I2Xj0Zi8LHuYrbVyzBsVvv_7HJH2Kq0q-oV6rlJjU7l4zCOQAL0dr8gJ_n-hI49YL_eu3nHk3b6FUSYCkCKpFOGM4IC6QdFTtE30l0GHXMFmG5k4gjZqgFaXTMLcC4PVRaNM"
-            alt="Hero Movie Banner"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 hero-gradient" />
-        </div>
-        <div className="relative z-10 px-[20px] md:px-[64px] w-full max-w-[1440px] mx-auto mt-20 md:mt-0">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="px-3 py-1 bg-surface-container rounded-full text-tertiary text-[12px] font-[Inter] border border-white/10">
-                KHOA HỌC VIỄN TƯỞNG
-              </span>
-              <span className="px-3 py-1 bg-surface-container rounded-full text-tertiary text-[12px] font-[Inter] border border-white/10">
-                HÀNH ĐỘNG
-              </span>
-              <span className="text-tertiary text-[12px] font-[Inter]">2024 • 2h 45m</span>
-            </div>
-            <h1 className="text-[40px] md:text-[64px] font-[Montserrat] font-bold leading-tight tracking-tight text-on-surface mb-6">
-              CHRONICLES OF ECHO
-            </h1>
-            <p className="text-[18px] font-[Inter] leading-relaxed text-on-surface-variant mb-8 line-clamp-3">
-              Trong một thế giới mà các vết nứt thời gian bị vũ khí hóa, một điệp viên phản bội phải điều
-              hướng qua những thực tại vang vọng để ngăn chặn sự sụp đổ thời gian sắp xảy ra. Cuộc đua tối
-              thượng chống lại thời gian bắt đầu ngay bây giờ.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button className="flex items-center justify-center gap-2 bg-primary-container text-on-primary-container px-8 py-4 rounded-xl hover:bg-inverse-primary transition-colors text-[14px] font-[Inter] font-semibold tracking-wider">
-                <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>
-                  play_arrow
+      {/* ── Hero Section ── */}
+      {hero && (
+        <section className="relative w-full h-[870px] md:h-[921px] flex items-center">
+          <div className="absolute inset-0 w-full h-full">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={heroBackdrop}
+              alt={hero.name}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 hero-gradient" />
+          </div>
+
+          <div className="relative z-10 px-[20px] md:px-[64px] w-full max-w-[1440px] mx-auto mt-20 md:mt-0">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="px-3 py-1 bg-surface-container rounded-full text-tertiary text-[12px] font-[Inter] border border-white/10">
+                  {hero.year}
                 </span>
-                Xem ngay
-              </button>
-              <button className="flex items-center justify-center gap-2 glass-panel border border-white/20 text-on-surface px-8 py-4 rounded-xl hover:bg-surface-container transition-colors text-[14px] font-[Inter] font-semibold tracking-wider">
-                <span className="material-symbols-outlined">add</span>
-                Yêu thích
-              </button>
+                {hero.tmdb?.vote_average && Number(hero.tmdb.vote_average) > 0 && (
+                  <span className="px-3 py-1 bg-surface-container rounded-full text-tertiary text-[12px] font-[Inter] border border-white/10">
+                    ⭐ {Number(hero.tmdb.vote_average).toFixed(1)}
+                  </span>
+                )}
+              </div>
+
+              <h1 className="text-[40px] md:text-[64px] font-[Montserrat] font-bold leading-tight tracking-tight text-on-surface mb-6">
+                {hero.name}
+              </h1>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href={`/movie/${hero.slug}`}
+                  className="flex items-center justify-center gap-2 bg-primary-container text-on-primary-container px-8 py-4 rounded-xl hover:bg-inverse-primary transition-colors text-[14px] font-[Inter] font-semibold tracking-wider"
+                >
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontVariationSettings: '"FILL" 1' }}
+                  >
+                    play_arrow
+                  </span>
+                  Xem ngay
+                </Link>
+                <button className="flex items-center justify-center gap-2 glass-panel border border-white/20 text-on-surface px-8 py-4 rounded-xl hover:bg-surface-container transition-colors text-[14px] font-[Inter] font-semibold tracking-wider">
+                  <span className="material-symbols-outlined">add</span>
+                  Yêu thích
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* Content Rows */}
+      {/* ── Content Rows ── */}
       <main className="relative z-20 pb-24 -mt-16 bg-background">
-        {/* Trending Now */}
+
+        {/* Phim Mới Cập Nhật */}
         <section className="mb-[48px] px-[20px] md:px-[64px] max-w-[1440px] mx-auto overflow-hidden">
-          <h2 className="text-[24px] font-[Montserrat] font-semibold text-on-surface mb-6">
-            Đang thịnh hành
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-[24px] font-[Montserrat] font-semibold text-on-surface">
+              Phim Mới Cập Nhật
+            </h2>
+            <Link
+              href="/movies"
+              className="text-[14px] font-[Inter] text-tertiary hover:text-on-surface transition-colors"
+            >
+              Xem tất cả →
+            </Link>
+          </div>
           <div className="flex overflow-x-auto hide-scrollbar gap-[16px] pb-4 -mx-[20px] px-[20px] md:mx-0 md:px-0">
-            {trendingMovies.map((movie) => (
-              <div
-                key={movie.id}
+            {trending.map((movie: any) => (
+              <Link
+                key={movie._id}
+                href={`/movie/${movie.slug}`}
                 className="group relative flex-none w-[160px] md:w-[220px] aspect-[2/3] rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 border border-white/10 hover:border-primary-container"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={movie.posterUrl}
-                  alt={movie.title}
+                  src={getImageUrl(movie)}
+                  alt={movie.name}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                   <h3 className="text-[14px] font-[Inter] font-semibold text-on-surface mb-1 truncate">
-                    {movie.title}
+                    {movie.name}
                   </h3>
-                  <p className="text-[12px] font-[Inter] text-tertiary">{movie.meta}</p>
+                  <p className="text-[12px] font-[Inter] text-tertiary">
+                    {movie.year}
+                    {movie.tmdb?.vote_average && Number(movie.tmdb.vote_average) > 0
+                      ? ` • ⭐ ${Number(movie.tmdb.vote_average).toFixed(1)}`
+                      : ""}
+                  </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
 
-        {/* Continue Watching */}
+        {/* Phim Bộ Nổi Bật */}
         <section className="mb-[48px] px-[20px] md:px-[64px] max-w-[1440px] mx-auto overflow-hidden">
-          <h2 className="text-[24px] font-[Montserrat] font-semibold text-on-surface mb-6">
-            Xem tiếp
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-[24px] font-[Montserrat] font-semibold text-on-surface">
+              Phim Bộ Nổi Bật
+            </h2>
+            <Link
+              href="/series"
+              className="text-[14px] font-[Inter] text-tertiary hover:text-on-surface transition-colors"
+            >
+              Xem tất cả →
+            </Link>
+          </div>
           <div className="flex overflow-x-auto hide-scrollbar gap-[16px] pb-4 -mx-[20px] px-[20px] md:mx-0 md:px-0">
-            {continueWatching.map((item) => (
-              <div
-                key={item.id}
-                className="group relative flex-none w-[280px] md:w-[320px] aspect-video rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 border border-white/10 hover:border-white/30 bg-surface-container"
+            {series.map((show: any) => (
+              <Link
+                key={show._id}
+                href={`/movie/${show.slug}`}
+                className="group relative flex-none w-[160px] md:w-[220px] aspect-[2/3] rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 border border-white/10 hover:border-primary-container"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={item.thumbnailUrl}
-                  alt={item.title}
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                  src={getImageUrl(show)}
+                  alt={show.name}
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
-                  <button className="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg">
-                    <span
-                      className="material-symbols-outlined"
-                      style={{ fontVariationSettings: '"FILL" 1' }}
-                    >
-                      play_arrow
-                    </span>
-                  </button>
-                </div>
-                <div className="absolute bottom-0 w-full bg-gradient-to-t from-surface-dim to-transparent p-4">
-                  <h3 className="text-[14px] font-[Inter] font-semibold text-on-surface mb-2 truncate">
-                    {item.title}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                  <h3 className="text-[14px] font-[Inter] font-semibold text-on-surface mb-1 truncate">
+                    {show.name}
                   </h3>
-                  <div className="w-full h-1 bg-[#333333] rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-secondary-container rounded-full"
-                      style={{ width: `${item.progress}%` }}
-                    />
-                  </div>
-                  <p className="text-[12px] font-[Inter] text-tertiary mt-2">{item.remaining}</p>
+                  <p className="text-[12px] font-[Inter] text-tertiary">
+                    {show.year}
+                  </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
+
       </main>
     </>
   );

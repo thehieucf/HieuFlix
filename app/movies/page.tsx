@@ -1,93 +1,172 @@
+import Link from "next/link";
 import MovieCard from "@/components/MovieCard";
-import FilterBar from "@/components/FilterBar";
 
-const movies = [
-  {
-    id: 1,
-    title: "Chân Trời Cuối Cùng",
-    meta: "2024 • Khoa học viễn tưởng • 2g 15ph",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuB_-eVGqTmk2VIOfsTauM1NnhmQktbYnkUel1c_7HTEXaMflmz8EKuyPIVywWxpKvu_jS0EyfTxrWtRER13Is1L1I5ip1hptqsRfWy9YE7UmzyitzNbsLwjPmI0Tz3tcy2X-ntwqcJQCXlIWo0qG3xB5eoXdlA6j982OPdWaY7QI00xV65wttddBqTKZo0-NX8FrE4Z68HcbxQrVKnUkJYJNFhGM3QkL7l42pwgp4xUKViEIZI8FgAYO6LvPgjzwAZpD87OHzbHzcyM",
-  },
-  {
-    id: 2,
-    title: "Đêm Neon",
-    meta: "2023 • Tâm lý • 1g 58ph",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBmpdXUq7Ol1n-sLOyVSHGVElgu6e7Rs1ooicst3dRLPJ5xjN2OrEAR8CkuD9bUr1tyHSoRxqgF0BVzoVWzOGGhFqdEpeaYCjY4OiR4HIJPMYSNDd9qrZIX7biw2G8TbHcdxzA9gWNkuqRrCY26wvFQINMc2FBnCv8xGMG_L-saqdQ92NY_uTbgMirNBJ_F5MpgSvp_LkO1uVR9KtVq5FMQWvk2kYmxCtQw5N4XAnaPH8_xxc3moZfyrTVCw31sJRuY53RkjSSB-WLU",
-  },
-  {
-    id: 3,
-    title: "Vang Vọng Thời Gian",
-    meta: "2024 • Tình cảm • 2g 30ph",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDV1hDas0sZY6JH2Zs11-TDRu6lqme84MMtlCXZkfLf1INbvJrI4YpH2MfkM_bnnk3tk3bLQ9DoVfi-oDvYXUn85NfOUJQd0HYVPYGVYfcQOU9YNpzAyC84W-rVC4U6_ICoDng5Wt9nkJny0M7x-Opkyy9QG1t4WpJEbJ1BfkBf8F2z-C_5dpmF9rXTGFoVaiTUiEnTSXPCx-zQUhUuP0nRaQ8fhValFhjNw6zcuOcdx8nWU2PO38WpSsVBKKBUXJZAGRh2X91GMoPN",
-  },
-  {
-    id: 4,
-    title: "Rừng Thì Thầm",
-    meta: "2022 • Kinh dị • 1g 45ph",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDNJmi8SoIaUiT43rbQ5a9-txiMUCOZ3iNAr9yZmfr6BjX9vx8mLEng_z4rykEeHVMsuXyJdzJLRLr7SQVv8kwBFqiHSXQJ_H81dD4jLXpvvXMLpI4AzRrl8lPtl5CDVJ1oGpDFwRUIdadT5sFi7sxgRG4oplRi-tfUm88G-kQWC3LXESfIGxSZfSfs8DYEEK_m88PGsnAgWud0hvKGHIralln0_Igfz-Sl7FtFAj4eKjBU7EPnG6FxLe7pAafbiITmt-LukUB9UW1q",
-  },
-  {
-    id: 5,
-    title: "Tốc Độ",
-    meta: "2024 • Hành động • 2g 05ph",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDt6YaFokCGhf-dcSkllPlXfViQl56eNBgLREMPGcki1edEGA4MMGVahSNkuK52Pbn5dyYhevE5EvD8ZMApWzWqNT65gsY-Dk2Sp40bspl5UNO_WbX-wuGwUezwXOEIRXUFBlLUW4wn8wHEvvBYV9GQnNarvC17mj-6Ed3YBiXiJkM7-QDasu97sy3039nYLywS7pQreFfdixFjNnGMoxB9qR-IsVupWZmzhug_dHhYfsT_Z5-5dcM_s5aku7SMTAvcVjUQOgNZ5iPy",
-  },
-  {
-    id: 6,
-    title: "Vùng Nước Sâu",
-    meta: "2023 • Chính kịch • 1g 50ph",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA_CUo_h7bCCR2KBrmhEzK707qth68Kz-dKctTGaVKPT5U3ch5gqP_5fNbDfM8ZnyjuXrKDac_bD0rCyNKeRh-iOGa3MsLkzm3-dxT0BTeGaGzMFa8_y7neGzgUCF8LKTdoaJX7rG6SwLks0gxe4o300NEgx8X11fb04L4MZpeCcHhMVIE7gX4yamo48ol0B1mXkeIausFBVkb0InPY-gKOg1aVoy0TmbbL4tkaNtszEvGzX3zBzEoZ7Q7AXtj20Dxr-bRWtl0HOX-z",
-  },
-  {
-    id: 7,
-    title: "Ares Một",
-    meta: "2025 • Khoa học viễn tưởng • 2g 20ph",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDz9xzAk6UcxL698JFrg0Ry78fCC7UC1imJY8UCE1x80-FsYmdQ8vCEStZdDJ3VNX2USHgfjigCrH97VY6fqDTy34lbcmt0ifsvrzeogfAb0cuJ_xc0jSNy_CVGgwjRhgNpaXxRinBZCovrCchbXlvklKdzGH1LawwPSX0w7nEwUhJYXFKsxtkfC6EuOb_ovmRbHtRF3s6ObDgyygXPP6dY3xzLN2wzKkjpVUobVueNUVWz-cUjQSYwiAlK12fArDACfWXP75b1m1PX",
-  },
-  {
-    id: 8,
-    title: "Tiếng Gọi Đỉnh Núi",
-    meta: "2024 • Phiêu lưu • 1g 40ph",
-    posterUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDkv4izX0LZdCxuoR6K9Qtxgsc4tGmBrqUwrrjJxA1lna0OEBw1dgUYgqo9Ita5K8YqqUINjjaTpRk_OxqQCd4kcvrX4FKO83j6SUwzoe-5ieM4r8Bu-RF3a0CJ4EVdR71q29aiwxS3f74f6r_fEqgvbdpel0y7-1OkASEP9cYnzJEQLtUUvtrT9y2x2kiHwJ0TpvBxLZ5KX8oW-y5Rlzdr2vbaFPsIib980oS_G0fjcLomt1udote-Zr4fzJd6GS7M2CQG0-zbqgW3",
-  },
-];
+const VSMOV = "https://vsmov.com";
 
-export default function MoviesPage() {
+interface PageProps {
+  searchParams: Promise<{ category?: string; page?: string }>;
+}
+
+function getImageUrl(item: any): string {
+  const url =
+    typeof item.thumb_url === "string" && item.thumb_url
+      ? item.thumb_url
+      : typeof item.poster_url === "string" && item.poster_url
+      ? item.poster_url
+      : "";
+  return url || "https://via.placeholder.com/500x750?text=No+Image";
+}
+
+async function getMovies(category: string | undefined, page: number) {
+  let url: string;
+  if (category) {
+    url = `${VSMOV}/api/danh-sach?category=${encodeURIComponent(category)}&page=${page}`;
+  } else {
+    url = `${VSMOV}/api/danh-sach/phim-moi-cap-nhat?page=${page}`;
+  }
+  const res = await fetch(url, { next: { revalidate: 3600 } });
+  if (!res.ok) throw new Error("Không thể tải danh sách phim");
+  return res.json();
+}
+
+export default async function MoviesPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const category = params.category;
+  const currentPage = Math.max(1, Number(params.page ?? 1));
+
+  const data = await getMovies(category, currentPage);
+  const movies: any[] = data.items ?? [];
+  const pagination = data.pagination ?? {};
+  const totalPages: number = pagination.totalPages ?? 1;
+  const totalItems: number = pagination.totalItems ?? 0;
+
+  function pageUrl(p: number) {
+    const qs = new URLSearchParams();
+    if (category) qs.set("category", category);
+    qs.set("page", String(p));
+    return `/movies?${qs.toString()}`;
+  }
+
+  function getPageRange() {
+    const delta = 2;
+    const left = Math.max(1, currentPage - delta);
+    const right = Math.min(totalPages, currentPage + delta);
+    return Array.from({ length: right - left + 1 }, (_, i) => left + i);
+  }
+
+  const pageRange = getPageRange();
+
   return (
-    <main className="w-full max-w-[1440px] mx-auto px-[20px] md:px-[64px] py-[48px] flex flex-col gap-12 mt-20">
-      {/* Header & Filter */}
-      <section className="flex flex-col gap-6">
-        <h1 className="text-[40px] md:text-[64px] font-[Montserrat] font-bold leading-tight tracking-tight text-on-surface">
-          Khám phá Phim lẻ
+    <main className="relative z-20 pt-24 pb-24 bg-background min-h-screen">
+      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+
+        {/* ── Header ── */}
+        <div className="flex items-center gap-3 mb-2">
+          {category && (
+            <>
+              <Link
+                href="/genres"
+                className="text-tertiary hover:text-on-surface transition-colors text-[14px] font-[Inter] flex items-center gap-1"
+              >
+                <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                Thể loại
+              </Link>
+              <span className="text-outline-variant">/</span>
+              <span className="text-on-surface text-[14px] font-[Inter] capitalize">
+                {category.replace(/-/g, " ")}
+              </span>
+            </>
+          )}
+        </div>
+
+        <h1 className="text-headline-lg font-headline-lg text-on-surface mb-1">
+          {category
+            ? category.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+            : "Phim Mới Cập Nhật"}
         </h1>
-        <FilterBar />
-      </section>
+        <p className="text-[14px] font-[Inter] text-tertiary mb-8">
+          {totalItems.toLocaleString("vi-VN")} bộ phim • Trang {currentPage}/{totalPages}
+        </p>
 
-      {/* Movie Grid */}
-      <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-[16px] md:gap-[24px]">
-        {movies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            title={movie.title}
-            meta={movie.meta}
-            posterUrl={movie.posterUrl}
-            href={`/movies/${movie.id}`}
-          />
-        ))}
-      </section>
+        {/* ── Grid ── */}
+        {movies.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-card-gap md:gap-gutter">
+            {movies.map((movie: any) => (
+              <MovieCard
+                key={movie._id}
+                title={movie.name}
+                meta={`${movie.year ?? "—"}${
+                  movie.tmdb?.vote_average && Number(movie.tmdb.vote_average) > 0
+                    ? ` • ⭐ ${Number(movie.tmdb.vote_average).toFixed(1)}`
+                    : ""
+                }`}
+                posterUrl={getImageUrl(movie)}
+                href={`/movie/${movie.slug}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-32 gap-4 text-center">
+            <span className="material-symbols-outlined text-tertiary" style={{ fontSize: 64 }}>
+              movie_off
+            </span>
+            <p className="text-on-surface-variant text-[18px] font-[Inter]">
+              Không tìm thấy phim nào
+            </p>
+            <Link
+              href="/genres"
+              className="mt-2 px-6 py-3 rounded-full bg-primary-container text-on-primary-container text-[14px] font-[Inter] font-semibold hover:bg-inverse-primary transition-colors"
+            >
+              Quay lại thể loại
+            </Link>
+          </div>
+        )}
 
-      <div className="flex justify-center mt-8">
-        <button className="px-8 py-3 rounded-full border border-white/20 text-on-surface text-[14px] font-[Inter] font-semibold tracking-wider hover:bg-white/5 transition-colors glass-panel">
-          Tải thêm
-        </button>
+        {/* ── Pagination ── */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-14 flex-wrap">
+            {currentPage > 1 ? (
+              <Link href={pageUrl(currentPage - 1)} className="flex items-center gap-1 px-4 py-2 rounded-full border border-white/20 text-on-surface text-[14px] font-[Inter] hover:bg-surface-container transition-colors">
+                <span className="material-symbols-outlined text-[18px]">chevron_left</span>Trước
+              </Link>
+            ) : (
+              <span className="flex items-center gap-1 px-4 py-2 rounded-full border border-white/10 text-tertiary text-[14px] font-[Inter] opacity-40 cursor-not-allowed">
+                <span className="material-symbols-outlined text-[18px]">chevron_left</span>Trước
+              </span>
+            )}
+
+            {pageRange[0] > 1 && (
+              <>
+                <Link href={pageUrl(1)} className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 text-on-surface text-[14px] font-[Inter] hover:bg-surface-container transition-colors">1</Link>
+                {pageRange[0] > 2 && <span className="w-10 h-10 flex items-center justify-center text-tertiary">...</span>}
+              </>
+            )}
+
+            {pageRange.map((p) => (
+              <Link key={p} href={pageUrl(p)} className={`w-10 h-10 flex items-center justify-center rounded-full text-[14px] font-[Inter] font-semibold transition-colors ${p === currentPage ? "bg-primary-container text-on-primary-container border border-primary-container" : "border border-white/20 text-on-surface hover:bg-surface-container"}`}>
+                {p}
+              </Link>
+            ))}
+
+            {pageRange[pageRange.length - 1] < totalPages && (
+              <>
+                {pageRange[pageRange.length - 1] < totalPages - 1 && <span className="w-10 h-10 flex items-center justify-center text-tertiary">...</span>}
+                <Link href={pageUrl(totalPages)} className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 text-on-surface text-[14px] font-[Inter] hover:bg-surface-container transition-colors">{totalPages}</Link>
+              </>
+            )}
+
+            {currentPage < totalPages ? (
+              <Link href={pageUrl(currentPage + 1)} className="flex items-center gap-1 px-4 py-2 rounded-full border border-white/20 text-on-surface text-[14px] font-[Inter] hover:bg-surface-container transition-colors">
+                Sau<span className="material-symbols-outlined text-[18px]">chevron_right</span>
+              </Link>
+            ) : (
+              <span className="flex items-center gap-1 px-4 py-2 rounded-full border border-white/10 text-tertiary text-[14px] font-[Inter] opacity-40 cursor-not-allowed">
+                Sau<span className="material-symbols-outlined text-[18px]">chevron_right</span>
+              </span>
+            )}
+          </div>
+        )}
+
       </div>
     </main>
   );

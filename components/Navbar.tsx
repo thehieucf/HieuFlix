@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
+import SearchInput from "@/components/SearchInput";
 
 const navLinks = [
   { href: "/", label: "Trang chủ" },
@@ -41,17 +43,22 @@ export default function Navbar() {
           })}
         </div>
       </div>
+
       <div className="flex items-center gap-4">
-        <div className="relative hidden md:block">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">
-            search
-          </span>
-          <input
-            type="text"
-            placeholder="Tìm kiếm phim..."
-            className="bg-surface-container border border-white/10 rounded-full py-2 pl-10 pr-4 text-[16px] font-[Inter] text-on-surface placeholder:text-on-surface-variant focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-colors w-56"
-          />
-        </div>
+        {/* Suspense bắt buộc vì SearchInput dùng useSearchParams() */}
+        <Suspense
+          fallback={
+            <div className="relative hidden md:block">
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">
+                search
+              </span>
+              <div className="bg-surface-container border border-white/10 rounded-full py-2 pl-10 pr-4 w-56 h-[38px]" />
+            </div>
+          }
+        >
+          <SearchInput />
+        </Suspense>
+
         <button
           aria-label="Thông báo"
           className="text-on-surface hover:text-primary transition-colors"

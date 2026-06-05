@@ -36,7 +36,7 @@ export default function MovieCard({
         <h3 className="text-[16px] font-[Inter] font-semibold text-on-surface truncate">
           {title}
         </h3>
-        <p className="text-[12px] font-[Inter] text-tertiary">{meta}</p>
+        <p className="text-[12px] font-[Inter] text-tertiary truncate">{meta}</p>
       </div>
     </Link>
   );
