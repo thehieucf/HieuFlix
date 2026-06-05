@@ -14,8 +14,22 @@ const nextConfig: NextConfig = {
         hostname: "image.tmdb.org",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "vsmov.com",
+        pathname: "/**",
+      },
     ],
   },
+  // Cho phép ngrok và các tunnel truy cập dev server
+  // Key đúng trong Next.js 15/16 là allowedDevOrigins
+  allowedDevOrigins: [
+    "*.ngrok-free.app",
+    "*.ngrok.io",
+    "*.ngrok.app",
+    "*.loca.lt",
+    "*.tunnel.dev",
+  ],
 };
 
 export default nextConfig;

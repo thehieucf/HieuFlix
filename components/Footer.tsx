@@ -35,6 +35,13 @@ export default function Footer() {
           © 2024 HieuFlix. Bảo lưu mọi quyền.
         </div>
       </div>
+      {/* Credit */}
+      <div className="max-w-[1440px] mx-auto mt-6 pt-6 border-t border-white/5 text-center">
+        <p className="text-[12px] font-[Inter] text-tertiary">
+          Dự án được build bởi{" "}
+          <span className="text-primary font-semibold">Phạm Trần Thế Hiếu</span>
+        </p>
+      </div>
     </footer>
   );
 }

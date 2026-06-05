@@ -1,4 +1,12 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const MovieDescription = dynamic(() => import("@/components/MovieDescription"), {
+  ssr: false,
+  loading: () => (
+    <div className="text-[16px] font-[Inter] text-on-surface-variant leading-relaxed max-w-3xl line-clamp-5" />
+  ),
+});
 
 const VSMOV = "https://vsmov.com";
 
@@ -11,20 +19,12 @@ async function getMovieDetails(slug: string) {
 }
 
 function getImageUrl(movie: any, role: "backdrop" | "poster" = "poster"): string {
-  // vsmov đặt tên field NGƯỢC:
-  //   thumb_url  → thực ra chứa ảnh POSTER DỌC  (*-poster.jpg)
-  //   poster_url → thực ra chứa ảnh BACKDROP NGANG (*-thumb.jpg)
-  const posterVertical   = typeof movie.thumb_url  === "string" && movie.thumb_url  ? movie.thumb_url  : "";
-  const backdropHoriz    = typeof movie.poster_url === "string" && movie.poster_url ? movie.poster_url : "";
-
-  if (role === "backdrop") {
-    return backdropHoriz || posterVertical || "https://via.placeholder.com/1280x720?text=No+Image";
-  }
-  // role === "poster"
+  const posterVertical = typeof movie.thumb_url  === "string" && movie.thumb_url  ? movie.thumb_url  : "";
+  const backdropHoriz  = typeof movie.poster_url === "string" && movie.poster_url ? movie.poster_url : "";
+  if (role === "backdrop") return backdropHoriz || posterVertical || "https://via.placeholder.com/1280x720?text=No+Image";
   return posterVertical || backdropHoriz || "https://via.placeholder.com/500x750?text=No+Image";
 }
 
-// Dùng slug làm dynamic segment (thư mục vẫn là [id] cho tiện)
 export default async function MovieDetail({
   params,
 }: {
@@ -33,7 +33,6 @@ export default async function MovieDetail({
   const { id: slug } = await params;
   const data = await getMovieDetails(slug);
   const movie = data.movie;
-  const episodes: any[] = data.episodes ?? [];
 
   const backdropUrl = getImageUrl(movie, "backdrop");
   const posterUrl   = getImageUrl(movie, "poster");
@@ -52,9 +51,9 @@ export default async function MovieDetail({
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full pb-12 flex flex-col md:flex-row gap-8 items-end md:items-start">
+        <div className="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop w-full pb-12 flex flex-col md:flex-row gap-8 items-start">
           {/* Poster dọc */}
-          <div className="hidden md:block w-56 flex-shrink-0 rounded-xl overflow-hidden border border-white/10 shadow-2xl self-end">
+          <div className="hidden md:block w-56 flex-shrink-0 rounded-xl overflow-hidden border border-white/10 shadow-2xl mt-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={posterUrl} alt={movie.name} className="w-full h-auto block" />
           </div>
@@ -70,7 +69,8 @@ export default async function MovieDetail({
               </p>
             )}
 
-            <div className="flex flex-wrap items-center gap-3 mb-6">
+            {/* Badges */}
+            <div className="flex flex-wrap items-center gap-3 mb-4">
               {movie.tmdb?.vote_average && Number(movie.tmdb.vote_average) > 0 && (
                 <span className="text-primary font-bold text-headline-sm">
                   ⭐ {Number(movie.tmdb.vote_average).toFixed(1)}
@@ -103,7 +103,7 @@ export default async function MovieDetail({
 
             {/* Thể loại */}
             {movie.category?.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-2 mb-3">
                 {movie.category.map((cat: any) => (
                   <Link
                     key={cat.id}
@@ -118,26 +118,20 @@ export default async function MovieDetail({
 
             {/* Quốc gia */}
             {movie.country?.length > 0 && (
-              <p className="text-caption text-tertiary mb-6">
-                Quốc gia:{" "}
-                {movie.country.map((c: any) => c.name).join(", ")}
+              <p className="text-caption text-tertiary mb-5">
+                Quốc gia: {movie.country.map((c: any) => c.name).join(", ")}
               </p>
             )}
 
-            {/* Nội dung */}
-            <div
-              className="text-body-lg text-on-surface-variant mb-8 max-w-3xl leading-relaxed prose prose-invert prose-sm"
-              dangerouslySetInnerHTML={{
-                __html: movie.content || "Đang cập nhật nội dung...",
-              }}
-            />
-
-            <div className="flex flex-wrap gap-4">
+            {/* ── Nút hành động — ĐỂ TRÊN mô tả ── */}
+            <div className="flex flex-wrap gap-4 mb-6">
               <Link
                 href={`/watch/${slug}`}
                 className="flex items-center justify-center gap-2 bg-primary-container text-on-primary-container px-8 py-4 rounded-xl hover:bg-inverse-primary transition-colors font-label-md text-label-md"
               >
-                <span className="material-symbols-outlined">play_arrow</span>
+                <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>
+                  play_arrow
+                </span>
                 Xem phim
               </Link>
               <button className="flex items-center justify-center gap-2 glass-panel border border-white/20 text-on-surface px-8 py-4 rounded-xl hover:bg-surface-container transition-colors font-label-md text-label-md">
@@ -145,10 +139,14 @@ export default async function MovieDetail({
                 Yêu thích
               </button>
             </div>
+
+            {/* ── Mô tả — có collapse nếu dài ── */}
+            {movie.content && (
+              <MovieDescription html={movie.content} />
+            )}
           </div>
         </div>
       </section>
-
     </main>
   );
 }

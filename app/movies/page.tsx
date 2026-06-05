@@ -4,10 +4,11 @@ import MovieCard from "@/components/MovieCard";
 const VSMOV = "https://vsmov.com";
 
 interface PageProps {
-  searchParams: Promise<{ category?: string; page?: string }>;
+  searchParams: Promise<{ category?: string; type?: string; page?: string }>;
 }
 
 function getImageUrl(item: any): string {
+  // thumb_url = poster dọc (đúng cho card)
   const url =
     typeof item.thumb_url === "string" && item.thumb_url
       ? item.thumb_url
@@ -17,39 +18,80 @@ function getImageUrl(item: any): string {
   return url || "https://via.placeholder.com/500x750?text=No+Image";
 }
 
-async function getMovies(category: string | undefined, page: number) {
-  let url: string;
-  if (category) {
-    url = `${VSMOV}/api/danh-sach?category=${encodeURIComponent(category)}&page=${page}`;
-  } else {
-    url = `${VSMOV}/api/danh-sach/phim-moi-cap-nhat?page=${page}`;
-  }
+/** Lấy nhãn loại phim để hiển thị ở badge */
+function typeLabel(type?: string) {
+  if (type === "single") return "Phim Lẻ";
+  if (type === "series") return "Phim Bộ";
+  return null;
+}
+
+async function getMovies(
+  category: string | undefined,
+  type: string | undefined,
+  page: number
+) {
+  const qs = new URLSearchParams();
+  if (category) qs.set("category", category);
+  // type=single → phim lẻ (1 tập), type=series → phim bộ (nhiều tập)
+  if (type === "single" || type === "series") qs.set("type", type);
+  qs.set("page", String(page));
+
+  const url = `${VSMOV}/api/danh-sach?${qs.toString()}`;
   const res = await fetch(url, { next: { revalidate: 3600 } });
   if (!res.ok) throw new Error("Không thể tải danh sách phim");
   return res.json();
 }
 
+async function getCategoryName(slug: string): Promise<string> {
+  try {
+    const res = await fetch(`${VSMOV}/api/the-loai`, {
+      next: { revalidate: 86400 },
+    });
+    if (!res.ok) return slug;
+    const data = await res.json();
+    const found = (data.data?.items ?? []).find((g: any) => g.slug === slug);
+    return found?.name ?? slug.replace(/-/g, " ");
+  } catch {
+    return slug.replace(/-/g, " ");
+  }
+}
+
 export default async function MoviesPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const category = params.category;
+  const type     = params.type;     // "single" | "series" | undefined
   const currentPage = Math.max(1, Number(params.page ?? 1));
 
-  const data = await getMovies(category, currentPage);
+  const [data, categoryName] = await Promise.all([
+    getMovies(category, type, currentPage),
+    category ? getCategoryName(category) : Promise.resolve(null),
+  ]);
+
   const movies: any[] = data.items ?? [];
   const pagination = data.pagination ?? {};
   const totalPages: number = pagination.totalPages ?? 1;
   const totalItems: number = pagination.totalItems ?? 0;
 
+  // Tiêu đề trang
+  const pageTitle = categoryName
+    ? categoryName
+    : type === "single"
+    ? "Phim Lẻ"
+    : type === "series"
+    ? "Phim Bộ"
+    : "Phim Mới Cập Nhật";
+
   function pageUrl(p: number) {
     const qs = new URLSearchParams();
     if (category) qs.set("category", category);
+    if (type) qs.set("type", type);
     qs.set("page", String(p));
     return `/movies?${qs.toString()}`;
   }
 
   function getPageRange() {
     const delta = 2;
-    const left = Math.max(1, currentPage - delta);
+    const left  = Math.max(1, currentPage - delta);
     const right = Math.min(totalPages, currentPage + delta);
     return Array.from({ length: right - left + 1 }, (_, i) => left + i);
   }
@@ -60,50 +102,99 @@ export default async function MoviesPage({ searchParams }: PageProps) {
     <main className="relative z-20 pt-24 pb-24 bg-background min-h-screen">
       <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
 
-        {/* ── Header ── */}
-        <div className="flex items-center gap-3 mb-2">
+        {/* ── Breadcrumb ── */}
+        <div className="flex items-center gap-2 mb-2 text-[14px] font-[Inter] text-tertiary flex-wrap">
+          <Link href="/" className="hover:text-on-surface transition-colors">Trang chủ</Link>
           {category && (
             <>
-              <Link
-                href="/genres"
-                className="text-tertiary hover:text-on-surface transition-colors text-[14px] font-[Inter] flex items-center gap-1"
-              >
-                <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-                Thể loại
-              </Link>
-              <span className="text-outline-variant">/</span>
-              <span className="text-on-surface text-[14px] font-[Inter] capitalize">
-                {category.replace(/-/g, " ")}
-              </span>
+              <span>/</span>
+              <Link href="/genres" className="hover:text-on-surface transition-colors">Thể loại</Link>
             </>
+          )}
+          {(type === "single" || type === "series") && !category && (
+            <>
+              <span>/</span>
+            </>
+          )}
+          <span>/</span>
+          <span className="text-on-surface">{pageTitle}</span>
+        </div>
+
+        {/* ── Header ── */}
+        <div className="flex items-end justify-between mb-2 gap-4 flex-wrap">
+          <h1 className="text-headline-lg font-headline-lg text-on-surface">
+            {pageTitle}
+          </h1>
+          {/* Badge loại phim */}
+          {typeLabel(type) && (
+            <span className="px-3 py-1 bg-primary-container/20 text-primary rounded-full text-[13px] font-[Inter] border border-primary-container/30">
+              {typeLabel(type)}
+            </span>
           )}
         </div>
 
-        <h1 className="text-headline-lg font-headline-lg text-on-surface mb-1">
-          {category
-            ? category.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
-            : "Phim Mới Cập Nhật"}
-        </h1>
         <p className="text-[14px] font-[Inter] text-tertiary mb-8">
           {totalItems.toLocaleString("vi-VN")} bộ phim • Trang {currentPage}/{totalPages}
         </p>
 
+        {/* ── Filter nhanh: Phim lẻ / Phim bộ ── */}
+        {category && (
+          <div className="flex gap-2 mb-6 flex-wrap">
+            {[
+              { label: "Tất cả", value: undefined },
+              { label: "Phim lẻ",  value: "single" },
+              { label: "Phim bộ",  value: "series" },
+            ].map((opt) => {
+              const active = type === opt.value || (!type && !opt.value);
+              const qs = new URLSearchParams();
+              if (category) qs.set("category", category);
+              if (opt.value) qs.set("type", opt.value);
+              return (
+                <Link
+                  key={opt.label}
+                  href={`/movies?${qs.toString()}`}
+                  className={`px-4 py-1.5 rounded-full text-[13px] font-[Inter] font-semibold border transition-colors ${
+                    active
+                      ? "bg-primary-container text-on-primary-container border-primary-container"
+                      : "bg-surface-container text-tertiary border-white/10 hover:border-white/30"
+                  }`}
+                >
+                  {opt.label}
+                </Link>
+              );
+            })}
+          </div>
+        )}
+
         {/* ── Grid ── */}
         {movies.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-card-gap md:gap-gutter">
-            {movies.map((movie: any) => (
-              <MovieCard
-                key={movie._id}
-                title={movie.name}
-                meta={`${movie.year ?? "—"}${
-                  movie.tmdb?.vote_average && Number(movie.tmdb.vote_average) > 0
-                    ? ` • ⭐ ${Number(movie.tmdb.vote_average).toFixed(1)}`
-                    : ""
-                }`}
-                posterUrl={getImageUrl(movie)}
-                href={`/movie/${movie.slug}`}
-              />
-            ))}
+            {movies.map((movie: any) => {
+              // Xác định loại: single=phim lẻ, series/tv=phim bộ
+              const isMovie = movie.type === "single" || movie.tmdb?.type === "movie";
+              const badge = isMovie ? null : movie.episode_current;
+
+              return (
+                <div key={movie._id} className="relative">
+                  <MovieCard
+                    title={movie.name}
+                    meta={`${movie.year ?? "—"}${
+                      movie.tmdb?.vote_average && Number(movie.tmdb.vote_average) > 0
+                        ? ` • ⭐ ${Number(movie.tmdb.vote_average).toFixed(1)}`
+                        : ""
+                    }`}
+                    posterUrl={getImageUrl(movie)}
+                    href={`/movie/${movie.slug}`}
+                  />
+                  {/* Badge số tập cho phim bộ */}
+                  {badge && (
+                    <span className="absolute top-2 left-2 px-1.5 py-0.5 bg-primary-container text-on-primary-container text-[10px] font-[Inter] font-semibold rounded-md leading-tight z-10 pointer-events-none">
+                      {badge}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-32 gap-4 text-center">

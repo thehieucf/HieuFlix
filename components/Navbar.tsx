@@ -7,8 +7,8 @@ import SearchInput from "@/components/SearchInput";
 
 const navLinks = [
   { href: "/", label: "Trang chủ" },
-  { href: "/movies", label: "Phim lẻ" },
-  { href: "/series", label: "Phim bộ" },
+  { href: "/movies?type=single", label: "Phim lẻ" },
+  { href: "/movies?type=series", label: "Phim bộ" },
   { href: "/genres", label: "Thể loại" },
 ];
 
@@ -26,7 +26,8 @@ export default function Navbar() {
         </Link>
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const linkPath = link.href.split("?")[0];
+            const isActive = pathname === link.href || pathname === linkPath;
             return (
               <Link
                 key={link.href}
