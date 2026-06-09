@@ -100,11 +100,11 @@ export default async function MoviesPage({ searchParams }: PageProps) {
   const pageRange = getPageRange();
 
   return (
-    <main className="relative z-20 pt-24 pb-24 bg-background min-h-screen">
-      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+    <main className="relative z-20 pt-20 md:pt-24 pb-16 md:pb-24 bg-background min-h-screen">
+      <div className="max-w-container-max mx-auto px-4 sm:px-8 md:px-margin-desktop">
 
         {/* ── Breadcrumb ── */}
-        <div className="flex items-center gap-2 mb-2 text-[14px] font-[Inter] text-tertiary flex-wrap">
+        <div className="flex items-center gap-2 mb-2 text-[13px] md:text-[14px] font-[Inter] text-tertiary flex-wrap">
           <Link href="/" className="hover:text-on-surface transition-colors">Trang chủ</Link>
           {category && (
             <>

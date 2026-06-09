@@ -152,17 +152,17 @@ export default async function GenresPage() {
   const covers = await Promise.all(filtered.map((g) => getCover(g.slug)));
 
   return (
-    <main className="w-full max-w-[1440px] mx-auto px-[20px] md:px-[64px] py-[48px] flex flex-col gap-12 mt-20">
-      <section className="flex flex-col gap-3">
-        <h1 className="text-[40px] md:text-[64px] font-[Montserrat] font-bold leading-tight tracking-tight text-on-surface">
+    <main className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 md:px-[64px] py-8 md:py-[48px] flex flex-col gap-8 md:gap-12 mt-16 md:mt-20">
+      <section className="flex flex-col gap-2">
+        <h1 className="text-[28px] sm:text-[40px] md:text-[56px] font-[Montserrat] font-bold leading-tight tracking-tight text-on-surface">
           Thể Loại
         </h1>
-        <p className="text-[18px] font-[Inter] leading-relaxed text-on-surface-variant">
+        <p className="text-[15px] md:text-[18px] font-[Inter] leading-relaxed text-on-surface-variant">
           Khám phá phim theo thể loại yêu thích của bạn • {filtered.length} thể loại
         </p>
       </section>
 
-      <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[16px] md:gap-[24px]">
+      <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-[24px]">
         {filtered.map((genre, idx) => {
           const icon  = GENRE_ICONS[genre.slug]  ?? "movie";
           const color = GENRE_COLORS[genre.slug] ?? "#1a1a2e";

@@ -154,7 +154,7 @@ export default function SearchInput() {
           }}
           placeholder="Tìm kiếm phim..."
           autoComplete="off"
-          className={`bg-surface-container border text-[14px] font-[Inter] text-on-surface placeholder:text-on-surface-variant outline-none transition-all w-56 focus:w-80 py-2 pl-10 pr-8 ${
+          className={`bg-surface-container border text-[14px] font-[Inter] text-on-surface placeholder:text-on-surface-variant outline-none transition-all w-40 md:w-44 lg:w-56 focus:w-44 md:focus:w-52 lg:focus:w-72 py-2 pl-10 pr-8 ${
             showDropdown
               ? "border-primary-container ring-1 ring-primary-container rounded-t-2xl rounded-b-none border-b-transparent"
               : "border-white/10 rounded-full focus:border-primary-container focus:ring-1 focus:ring-primary-container"

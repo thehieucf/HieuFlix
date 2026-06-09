@@ -33,7 +33,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
 
   if (!query) {
     return (
-      <main className="relative z-20 pt-24 pb-24 bg-background min-h-screen flex items-center justify-center">
+      <main className="relative z-20 pt-20 md:pt-24 pb-16 md:pb-24 bg-background min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4 text-center px-4">
           <span className="material-symbols-outlined text-tertiary" style={{ fontSize: 72 }}>
             search
@@ -69,8 +69,8 @@ export default async function SearchPage({ searchParams }: PageProps) {
   const pageRange = getPageRange();
 
   return (
-    <main className="relative z-20 pt-24 pb-24 bg-background min-h-screen">
-      <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+    <main className="relative z-20 pt-20 md:pt-24 pb-16 md:pb-24 bg-background min-h-screen">
+      <div className="max-w-container-max mx-auto px-4 sm:px-8 md:px-margin-desktop">
 
         <div className="mb-8">
           <h1 className="text-headline-lg font-headline-lg text-on-surface mb-1">
