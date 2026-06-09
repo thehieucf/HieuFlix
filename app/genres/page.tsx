@@ -54,7 +54,6 @@ const GENRE_ICONS: Record<string, string> = {
   "tai-lieu":                     "videocam",
   "phim-tai-lieu":                "videocam",
   "thieu-nhi":                    "child_care",
-  "hoat-hinh":                    "animation",
   "lgbt":                         "diversity_3",
   "sieu-nhien":                   "whatshot",
   "dao-si":                       "auto_fix_high",
