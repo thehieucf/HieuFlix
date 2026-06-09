@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
         Referer: "https://vsmov.com/",
         Origin: "https://vsmov.com",
       },
-      // Không cache proxy — luôn lấy segment mới nhất
+      // Manifest không cache để luôn fresh, segment cache ở upstream
       cache: "no-store",
     });
 
@@ -84,7 +84,8 @@ export async function GET(req: NextRequest) {
         headers: {
           "Content-Type": "application/vnd.apple.mpegurl",
           "Access-Control-Allow-Origin": "*",
-          "Cache-Control": "no-cache",
+          // Manifest VOD không đổi — cache 5 phút ở browser để giảm re-fetch
+          "Cache-Control": "public, max-age=300",
         },
       });
     }
@@ -94,10 +95,10 @@ export async function GET(req: NextRequest) {
 
     return new NextResponse(buffer, {
       headers: {
-        // Dù extension là .png, đây là TS segment
         "Content-Type": "video/MP2T",
         "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "public, max-age=3600",
+        // Segment VOD bất biến — cache 1 giờ ở browser
+        "Cache-Control": "public, max-age=3600, immutable",
       },
     });
   } catch (err) {
