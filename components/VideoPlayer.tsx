@@ -69,7 +69,15 @@ export default function VideoPlayer({
           enableWorker: true,
           lowLatencyMode: false,
           backBufferLength: 90,
+          // --- BẮT ĐẦU: ĐOẠN CODE FIX LỖI NGROK ---
+          xhrSetup: function (xhr, url) {
+            // Gắn header để báo cho ngrok biết đây là request nội bộ, bỏ qua màn hình cảnh báo
+            xhr.setRequestHeader("ngrok-skip-browser-warning", "true");
+            xhr.setRequestHeader("Bypass-Tunnel-Reminder", "true");
+          },
+          // --- KẾT THÚC ---
         });
+        
         hls.loadSource(hlsUrl);
         hls.attachMedia(video);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
