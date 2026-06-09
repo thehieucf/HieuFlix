@@ -43,7 +43,6 @@ const GENRE_ICONS: Record<string, string> = {
   "phim-gia-dinh":                "family_restroom",
   "gia-tuong":                    "auto_fix_high",
   "phim-gia-tuong":               "auto_fix_high",
-  "phim-gia-tuong":               "auto_fix_high",
   "vien-tuong":                   "auto_fix_high",
   "co-trang":                     "castle",
   "tien-hiep":                    "castle",
